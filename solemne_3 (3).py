@@ -77,3 +77,94 @@ if pokemon_name:
 
     else:
         st.write("no se pudieron obtener los datos del Pokemon.")
+
+# --- SECCIÓN 2: COMPARACIÓN AVANZADA ---
+st.markdown("---") # Linea divisoria visual
+st.header("📊 Comparador de Pokémones por Tipo y Rango")
+
+# Paso 1: Obtener lista de tipos para el Selectbox
+url_tipos = "https://pokeapi.co/api/v2/type"
+try:
+    resp_tipos = requests.get(url_tipos).json()
+    lista_tipos = [t['name'] for t in resp_tipos['results']]
+    # Widget 1: Selectbox
+    tipo_seleccionado = st.selectbox("Selecciona un Tipo de Pokémon para analizar:", lista_tipos)
+except:
+    st.error("No se pudieron cargar los tipos.")
+    tipo_seleccionado = None
+
+if tipo_seleccionado:
+    # Obtener pokemones de ese tipo
+    url_por_tipo = f"https://pokeapi.co/api/v2/type/{tipo_seleccionado}"
+    data_tipo = requests.get(url_por_tipo).json()
+    
+    # Extraemos nombre y URL para sacar el ID
+    pokemones_del_tipo = []
+    for p in data_tipo['pokemon']:
+        nombre_p = p['pokemon']['name']
+        url_p = p['pokemon']['url']
+        try:
+            id_p = int(url_p.split('/')[-2]) # Truco para sacar ID desde la URL
+            pokemones_del_tipo.append({'name': nombre_p, 'id': id_p})
+        except:
+            continue
+    
+    df_tipo = pd.DataFrame(pokemones_del_tipo)
+    
+    if not df_tipo.empty:
+        # Widget 2: Slider de Rango
+        st.write("Selecciona el rango de IDs (Antigüedad) a comparar:")
+        rango_ids = st.slider("Rango de ID:", 1, 1025, (1, 151)) 
+        
+        # Filtramos el dataframe por el rango del slider
+        df_filtrado = df_tipo[(df_tipo['id'] >= rango_ids[0]) & (df_tipo['id'] <= rango_ids[1])]
+        
+        st.write(f"Encontrados **{len(df_filtrado)}** pokémones de tipo {tipo_seleccionado} en este rango.")
+
+        # Lógica de seguridad para no saturar la API
+        if len(df_filtrado) > 20:
+            st.warning("⚠️ Hay muchos Pokémon en este rango. Se analizarán los primeros 20.")
+            df_filtrado = df_filtrado.head(20)
+
+        # Botón para iniciar el análisis
+        if st.button("Generar Gráfico Comparativo"):
+            lista_stats_comparacion = []
+            
+            # Barra de progreso
+            barra_progreso = st.progress(0)
+            total = len(df_filtrado)
+            
+            for i, row in enumerate(df_filtrado.iterrows()):
+                poke_info = row[1]
+                # Reutilizamos tu función existente
+                datos = obtener_datos_pokemon(poke_info['name'])
+                if datos:
+                    hp = datos['stats'][0]['base_stat']
+                    ataque = datos['stats'][1]['base_stat']
+                    defensa = datos['stats'][2]['base_stat']
+                    velocidad = datos['stats'][5]['base_stat']
+                    
+                    lista_stats_comparacion.append({
+                        'Nombre': datos['name'],
+                        'HP': hp,
+                        'Ataque': ataque,
+                        'Defensa': defensa,
+                        'Velocidad': velocidad
+                    })
+                barra_progreso.progress((i + 1) / total)
+            
+            # Crear DataFrame final
+            df_comparativo = pd.DataFrame(lista_stats_comparacion)
+            
+            if not df_comparativo.empty:
+                df_comparativo = df_comparativo.set_index('Nombre')
+                
+                # Gráfico Nuevo: Área Chart
+                st.subheader(f"Comparativa de Stats: Tipo {tipo_seleccionado}")
+                st.area_chart(df_comparativo[['Ataque', 'Defensa', 'Velocidad']])
+                
+                # Interpretación de resultados
+                st.info(f"**Análisis:** Se observa la distribución de stats para el tipo {tipo_seleccionado}. "
+                        f"Los picos indican pokémones que destacan en sus atributos dentro del rango seleccionado.")
+            else:
+                st.warning("No se encontraron datos válidos para graficar.")
