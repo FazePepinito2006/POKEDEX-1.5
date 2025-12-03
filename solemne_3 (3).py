@@ -48,17 +48,17 @@ if pokemon_name:
 
         st.metric(label="Peso (kg)", value=pokemon_data['weight']/10)
 
-        st.write("### habilidades:") #Titulos
+        st.write("Habilidades:") #Titulos
         abilities_list = [ability['ability']['name'] for ability in pokemon_data['abilities']]
         abilities_df = pd.DataFrame(abilities_list, columns=['habilidad'])
         st.dataframe(abilities_df, hide_index=True)
 
-        st.write("### Tipos:")
+        st.write("Tipos:")
         types_list = [type_entry['type']['name'] for type_entry in pokemon_data['types']]
         types_df = pd.DataFrame(types_list, columns=['tipo'])
         st.dataframe(types_df, hide_index=True)
 
-        st.write("### estadísticas Base:")
+        st.write("Estadísticas Base:")
         stats_data = []
         for stat_entry in pokemon_data['stats']:
             stat_name = stat_entry['stat']['name'].replace('-', ' ').title()
@@ -70,7 +70,7 @@ if pokemon_name:
         st.bar_chart(stats_df)
 
     else:
-        st.write("no se pudieron obtener los datos del Pokemon.")
+        st.write("No se pudieron obtener los datos del Pokemon.")
 
 #COMPARACIÓN AVANZADA
 st.markdown("---") #Linea divisoria
