@@ -36,10 +36,10 @@ if pokemon_name:
     if pokemon_data:
         st.subheader(f"Datos de {pokemon_data['name'].capitalize()}:")
 
-       # Muestra la imagen del Pokémon
-if 'sprites' in pokemon_data and 'front_default' in pokemon_data['sprites']:
-    st.image(pokemon_data['sprites']['front_default'], caption=f"Sprite de {pokemon_name}")
-
+        # Muestra la imagen del Pokémon en lugar del texto
+    if 'sprites' in pokemon_data and 'front_default' in pokemon_data['sprites']:
+        st.image(pokemon_data['sprites']['front_default'], caption=f"Sprite de {pokemon_name}")
+    
         col1, col2 = st.columns(2)
         with col1:
             st.metric(label="ID", value=pokemon_data['id'])
