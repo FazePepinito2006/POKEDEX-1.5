@@ -157,7 +157,7 @@ if tipo_seleccionado:
                 st.area_chart(df_comparativo[['Ataque', 'Defensa', 'Velocidad']])
                 
                 #Interpretacion de los resultados
-                st.info(f"**Análisis:** Se observa la distribución de stats para el tipo {tipo_seleccionado}. "
+                st.info(f"**Analisis:** Se observa la distribución de stats para el tipo {tipo_seleccionado}. "
                         f"Los picos indican pokemones que destacan en sus atributos dentro del rango seleccionado.")
             else:
                 st.warning("No se encontraron datos válidos para graficar.")
