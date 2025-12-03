@@ -200,7 +200,7 @@ if tipo_seleccionado:
                 #Interpretación (Actualizada para coincidir con el gráfico)
                 st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
                         f"Este grafico permite comparar directamente qué Pokemon es superior en cada atributo específico.")
-                # --- GRÁFICO 2: DISPERSIÓN CON ALTAIR (MUCHO MEJOR) ---
+                #GRAFICO DE DISPERSION
                 st.markdown("---")
                 st.subheader("2. Relación Altura vs Peso (Interactivo)")
                 st.caption("Cada punto es un Pokémon. Pasa el mouse para ver detalles.")
@@ -223,3 +223,15 @@ if tipo_seleccionado:
                 ).interactive() # Esto permite hacer zoom con la rueda del mouse
 
                 st.altair_chart(scatter, use_container_width=True)
+
+                #GRAFICO DE LINEA
+                st.markdown("---")
+                st.subheader("Ranking de Poder Total")
+                st.line_chart(df_comparativo.set_index('Nombre')['Poder Total'])
+
+                # Interpretación Final
+                st.success(f"**Análisis Completo:** Se han procesado {len(df_comparativo)} Pokémon. "
+                           f"El gráfico de dispersión revela la diversidad física del tipo {tipo_seleccionado}, "
+                           f"mientras que el gráfico de barras permite identificar especialistas en Ataque o Defensa.")
+            else:
+                st.warning("No se encontraron datos válidos para graficar.")
