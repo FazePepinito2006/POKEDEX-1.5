@@ -192,7 +192,7 @@ if tipo_seleccionado:
                     color='Estadística:N',
                     column=alt.Column('Nombre:N', header=alt.Header(titleOrient="bottom", labelOrient="bottom")),
                     tooltip=['Nombre', 'Estadística', 'Valor']
-                ).properties(title="Stats por Pokémon")
+                ).properties(title="Estadisticas por Pokemon")
 
                 st.altair_chart(chart, use_container_width=False)
                 
