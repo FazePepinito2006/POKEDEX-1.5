@@ -46,7 +46,7 @@ if pokemon_name:
         with col2:
             st.metric(label="Altura (m)", value=pokemon_data['height']/10)
 
-        st.metric(label="Peso (kg)", value=pokemon_data['weight']/10)
+        st.metric(label="Peso (Kg)", value=pokemon_data['weight']/10)
 
         st.write("Habilidades:") #Titulos
         abilities_list = [ability['ability']['name'] for ability in pokemon_data['abilities']]
@@ -58,7 +58,7 @@ if pokemon_name:
         types_df = pd.DataFrame(types_list, columns=['tipo'])
         st.dataframe(types_df, hide_index=True)
 
-        st.write("Estadísticas Base:")
+        st.write("##Estadísticas Base:")
         stats_data = []
         for stat_entry in pokemon_data['stats']:
             stat_name = stat_entry['stat']['name'].replace('-', ' ').title()
