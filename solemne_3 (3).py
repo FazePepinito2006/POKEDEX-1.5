@@ -45,9 +45,9 @@ if pokemon_name:
         with col1:
             st.metric(label="ID", value=pokemon_data['id'])
         with col2:
-            st.metric(label="Altura (m)", value=pokemon_data['height']/10)
+            st.metric(label="Altura (m)", value=pokemon_data['height']/10) #Se divide en 10 para convertir de decimetro a metro
 
-        st.metric(label="Peso (Kg)", value=pokemon_data['weight']/10)
+        st.metric(label="Peso (Kg)", value=pokemon_data['weight']/10) #Se divide en 10 para convertir hectogramos a kilogramos
 
         st.write("Habilidades:") #Titulos
         abilities_list = [ability['ability']['name'] for ability in pokemon_data['abilities']]
@@ -59,7 +59,7 @@ if pokemon_name:
         types_df = pd.DataFrame(types_list, columns=['tipo'])
         st.dataframe(types_df, hide_index=True)
 
-        st.write("### Estadísticas Base:")
+        st.write("### Estadisticas Base:")
         stats_data = []
         for stat_entry in pokemon_data['stats']:
             stat_name = stat_entry['stat']['name'].replace('-', ' ').title()
@@ -83,7 +83,7 @@ try:
     resp_tipos = requests.get(url_tipos).json()
     lista_tipos = [t['name'] for t in resp_tipos['results']]
     #Primer recuadro: Selectbox
-    tipo_seleccionado = st.selectbox("Selecciona un Tipo de Pokémon para analizar:", lista_tipos)
+    tipo_seleccionado = st.selectbox("Selecciona un tipo de Pokemon para analizar:", lista_tipos)
 except:
     st.error("No se pudieron cargar los tipos.")
     tipo_seleccionado = None
@@ -114,15 +114,15 @@ if tipo_seleccionado:
         #Filtramos el dataframe por el rango del slider
         df_filtrado = df_tipo[(df_tipo['id'] >= rango_ids[0]) & (df_tipo['id'] <= rango_ids[1])]
         
-        st.write(f"Encontrados **{len(df_filtrado)}** pokémones de tipo {tipo_seleccionado} en este rango.")
+        st.write(f"Se han encontrado **{len(df_filtrado)}** pokemones de tipo {tipo_seleccionado} en este rango.")
 
         #Sistema de seguridad para no saturar la API
         if len(df_filtrado) > 20:
-            st.warning("Hay muchos Pokémon en este rango!! Se analizarán los primeros 20!!")
+            st.warning("Hay muchos Pokemones en este rango!! Se analizarán los primeros 20!!")
             df_filtrado = df_filtrado.head(20)
 
         #Boton para comenzar el analisi
-        if st.button("Generar Gráfico Comparativo"):
+        if st.button("Generar Grafico Comparativo"):
             lista_stats_comparacion = []
             
             #Barra de progreso
@@ -133,7 +133,7 @@ if tipo_seleccionado:
                 poke_info = row[1]
                 datos = obtener_datos_pokemon(poke_info['name'])
                 if datos:
-                    #Extraer las estadísticas
+                    #Extraemos las estadisticas
                     hp = datos['stats'][0]['base_stat']
                     ataque = datos['stats'][1]['base_stat']
                     defensa = datos['stats'][2]['base_stat']
@@ -141,7 +141,7 @@ if tipo_seleccionado:
                     esp_atk = datos['stats'][3]['base_stat']
                     esp_def = datos['stats'][4]['base_stat']
                     
-                    #Calculamos poder total, altura y peso (Crucial para que no de error)
+                    #Aqui se calculan poder total, altura y peso (Crucial para que no de error)
                     poder_total = hp + ataque + defensa + velocidad + esp_atk + esp_def
                     altura_m = datos['height'] / 10
                     peso_kg = datos['weight'] / 10
@@ -169,7 +169,7 @@ if tipo_seleccionado:
                 
                 #Titulo del grafico
                 st.subheader(f"Comparativa de Stats: Tipo {tipo_seleccionado}")
-                st.write("Comparación detallada de Ataque, Defensa y Velocidad.")
+                st.write("Comparacion detallada de Ataque, Defensa y Velocidad.")
 
                 #Preparacion de los datos
                 if 'Nombre' in df_comparativo.columns:
@@ -191,17 +191,17 @@ if tipo_seleccionado:
                     y=alt.Y('Valor:Q', title='Puntos'),
                     color='Estadística:N',
                     column=alt.Column('Nombre:N', header=alt.Header(titleOrient="bottom", labelOrient="bottom")),
-                    tooltip=['Nombre', 'Estadística', 'Valor']
+                    tooltip=['Nombre', 'Estadistica', 'Valor']
                 ).properties(title="Stats por Pokémon")
 
                 st.altair_chart(chart, use_container_width=False)
                 
-                #Interpretacion (Actualizada para coincidir con el gráfico)
+                #Interpretacion (Actualizada para coincidir con el grafico)
                 st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
                         f"Este grafico permite comparar directamente que Pokemon es superior en cada atributo.")
                 #GRAFICO DE DISPERSION
                 st.markdown("---")
-                st.subheader("Relación Altura vs Peso ¿Si son mas altos, son necesariamente mas pesados?")
+                st.subheader("Relacion Altura vs Peso ¿Si son mas altos, son necesariamente mas pesados?")
                 st.caption("Cada punto es un Pokemon. Pasa el cursor por encima para mas detalles.")
 
                 # Creamos el grafico de puntos (mark_circle)
@@ -218,7 +218,7 @@ if tipo_seleccionado:
                     #Tooltip: Lo que sale al pasar el mouse
                     tooltip=['Nombre', 'Peso', 'Altura', 'Poder Total']
                 ).properties(
-                    title="Distribución Física y de Poder"
+                    title="Distribucion Fisica y de Poder"
                 ).interactive() #Esto permite hacer zoom con la rueda del mouse
 
                 st.altair_chart(scatter, use_container_width=True)
