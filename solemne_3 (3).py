@@ -183,5 +183,5 @@ if tipo_seleccionado:
                 st.altair_chart(chart, use_container_width=False)
                 
                 #Interpretación (Actualizada para coincidir con el gráfico)
-                st.info(f"**Análisis:** Se observa la distribución detallada de stats para el tipo {tipo_seleccionado}. "
-                        f"Este gráfico permite comparar directamente qué Pokémon es superior en cada atributo específico.")
+                st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
+                        f"Este grafico permite comparar directamente qué Pokemon es superior en cada atributo específico.")
