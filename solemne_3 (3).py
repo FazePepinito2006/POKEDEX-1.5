@@ -145,8 +145,8 @@ if tipo_seleccionado:
                         'Defensa': defensa,
                         'Velocidad': velocidad
                         #ESTAS DOS LINEAS SON OBLIGATORIAS PARA QUE FUNCIONE EL GRAFICO DE DISPERSION
-                        'Altura': datos['height'] / 10,
-                        'Peso': datos['weight'] / 10
+                        'Altura': pokemon_data['height']/10,
+                        'Peso': pokemon_data['weight']/10
                     })
                 barra_progreso.progress((i + 1) / total)
             
@@ -189,9 +189,9 @@ if tipo_seleccionado:
                 #Interpretación (Actualizada para coincidir con el gráfico)
                 st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
                         f"Este grafico permite comparar directamente qué Pokemon es superior en cada atributo específico.")
-                # --- GRÁFICO 2: DISPERSIÓN (SCATTER) ---
-                st.markdown("---") # Línea separadora
-                st.subheader("2. Relación Altura vs Peso")
+                #GRAFICO DE DISPERSION
+                st.markdown("---")
+                st.subheader("Relación Altura vs Peso")
                 st.caption("Gráfico de dispersión para analizar la contextura física.")
                 
                 # Este gráfico usa las columnas 'Peso' y 'Altura'
