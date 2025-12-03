@@ -29,6 +29,7 @@ def obtener_datos_pokemon(nombre):
     except requests.exceptions.RequestException as req_err:
         st.error(f"error inesperado al obtener datos de {nombre}: {req_err}")
         return None
+        
 #CUADRO DE BUSQUEDA
 pokemon_name = st.text_input("Ingresa el nombre del Pokemon:", "pikachu")
 if pokemon_name:
@@ -143,6 +144,9 @@ if tipo_seleccionado:
                         'Ataque': ataque,
                         'Defensa': defensa,
                         'Velocidad': velocidad
+                        #ESTAS DOS LINEAS SON OBLIGATORIAS PARA QUE FUNCIONE EL GRAFICO DE DISPERSION
+                        'Altura': datos['height'] / 10,
+                        'Peso': datos['weight'] / 10
                     })
                 barra_progreso.progress((i + 1) / total)
             
@@ -185,3 +189,10 @@ if tipo_seleccionado:
                 #Interpretación (Actualizada para coincidir con el gráfico)
                 st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
                         f"Este grafico permite comparar directamente qué Pokemon es superior en cada atributo específico.")
+                # --- GRÁFICO 2: DISPERSIÓN (SCATTER) ---
+                st.markdown("---") # Línea separadora
+                st.subheader("2. Relación Altura vs Peso")
+                st.caption("Gráfico de dispersión para analizar la contextura física.")
+                
+                # Este gráfico usa las columnas 'Peso' y 'Altura'
+                st.scatter_chart(df_comparativo, x='Peso', y='Altura')
