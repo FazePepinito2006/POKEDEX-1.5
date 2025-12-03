@@ -58,7 +58,7 @@ if pokemon_name:
         types_df = pd.DataFrame(types_list, columns=['tipo'])
         st.dataframe(types_df, hide_index=True)
 
-        st.write("# Estadísticas Base:")
+        st.write("### Estadísticas Base:")
         stats_data = []
         for stat_entry in pokemon_data['stats']:
             stat_name = stat_entry['stat']['name'].replace('-', ' ').title()
