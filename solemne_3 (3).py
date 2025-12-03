@@ -191,7 +191,7 @@ if tipo_seleccionado:
                     y=alt.Y('Valor:Q', title='Puntos'),
                     color='Estadística:N',
                     column=alt.Column('Nombre:N', header=alt.Header(titleOrient="bottom", labelOrient="bottom")),
-                    tooltip=['Nombre', 'Estadistica', 'Valor']
+                    tooltip=['Nombre', 'Estadística', 'Valor']
                 ).properties(title="Stats por Pokémon")
 
                 st.altair_chart(chart, use_container_width=False)
