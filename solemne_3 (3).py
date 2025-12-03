@@ -116,9 +116,9 @@ if tipo_seleccionado:
         st.write(f"Encontrados **{len(df_filtrado)}** pokémones de tipo {tipo_seleccionado} en este rango.")
 
         #Sistema de seguridad para no saturar la API
-        if len(df_filtrado) > 20:
+        if len(df_filtrado) > 50:
             st.warning("Hay muchos Pokémon en este rango!! Se analizarán los primeros 20!!")
-            df_filtrado = df_filtrado.head(20)
+            df_filtrado = df_filtrado.head(50)
 
         #Boton para comenzar el analisis
         if st.button("Generar Gráfico Comparativo"):
