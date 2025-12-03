@@ -150,28 +150,28 @@ if tipo_seleccionado:
             df_comparativo = pd.DataFrame(lista_stats_comparacion)
             
             if not df_comparativo.empty:
-                # --- GRÁFICO DE BARRAS AGRUPADAS (ALTAIR) ---
+                #GRÁFICO DE BARRAS AGRUPADAS (ALTAIR)
                 import altair as alt 
                 
-                # Título del gráfico
+                #Titulo del gráfico
                 st.subheader(f"Comparativa de Stats: Tipo {tipo_seleccionado}")
-                st.write("Comparación detallada de Ataque, Defensa y Velocidad.")
+                st.write("Comparacion detallada de Ataque, Defensa y Velocidad.")
 
-                # 1. Preparación de datos (Si 'Nombre' es columna, lo dejamos así)
+                #Preparación de datos (Si 'Nombre' es columna, lo dejamos así)
                 if 'Nombre' in df_comparativo.columns:
                     df_reset = df_comparativo
                 else:
                     df_reset = df_comparativo.reset_index()
 
-                # 2. Transformar a formato largo para Altair
+                #Transformar a formato largo para Altair
                 df_long = df_reset.melt(
                     id_vars='Nombre', 
                     value_vars=['Ataque', 'Defensa', 'Velocidad'], 
-                    var_name='Estadística', 
+                    var_name='Estadistica', 
                     value_name='Valor'
                 )
 
-                # 3. Crear el gráfico
+                #Crear el grafico
                 chart = alt.Chart(df_long).mark_bar().encode(
                     x=alt.X('Estadística:N', axis=None), 
                     y=alt.Y('Valor:Q', title='Puntos'),
@@ -182,6 +182,6 @@ if tipo_seleccionado:
 
                 st.altair_chart(chart, use_container_width=False)
                 
-                # Interpretación (Actualizada para coincidir con el gráfico)
-                st.info(f"**Análisis:** Se observa la distribución detallada de stats para el tipo {tipo_seleccionado}. "
-                        f"Este gráfico permite comparar directamente qué Pokémon es superior en cada atributo específico.")
+                #Interpretacion (Actualizada para coincidir con el grafico)
+                st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
+                        f"Este gráfico permite comparar directamente qué Pokemon es superior en cada atributo específico.")
