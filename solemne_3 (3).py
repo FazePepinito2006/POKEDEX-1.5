@@ -117,7 +117,7 @@ if tipo_seleccionado:
 
         #Sistema de seguridad para no saturar la API
         if len(df_filtrado) > 50:
-            st.warning("Hay muchos Pokémon en este rango!! Se analizarán los primeros 20!!")
+            st.warning("Hay muchos Pokémon en este rango!! Se analizarán los primeros 50!!")
             df_filtrado = df_filtrado.head(50)
 
         #Boton para comenzar el analisis
