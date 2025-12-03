@@ -144,10 +144,6 @@ if tipo_seleccionado:
                     'Ataque': ataque,
                     'Defensa': defensa,
                     'Velocidad': velocidad,
-                    # ESTOS SON LOS NUEVOS DATOS NECESARIOS:
-                    'Altura': datos['height'] / 10,
-                    'Peso': datos['weight'] / 10,
-                    'Poder Total': poder_total
                 })
             
             #Creacion dataframe final
