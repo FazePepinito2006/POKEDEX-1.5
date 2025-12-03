@@ -37,7 +37,7 @@ if pokemon_name:
     if pokemon_data:
         st.subheader(f"Datos de {pokemon_data['name'].capitalize()}:")
 
-        # Muestra la imagen del Pokémon en lugar del texto
+        #Muestra la imagen del Pokemon
     if 'sprites' in pokemon_data and 'front_default' in pokemon_data['sprites']:
         st.image(pokemon_data['sprites']['front_default'], caption=f"Sprite de {pokemon_name}")
     
@@ -73,9 +73,9 @@ if pokemon_name:
     else:
         st.write("No se pudieron obtener los datos del Pokemon.")
 
-#COMPARACIÓN AVANZADA
+#COMPARACION AVANZADA
 st.markdown("---") #Linea divisoria
-st.header("Comparador de Pokémones por Tipo y Rango")
+st.header("Comparador de Pokemones por Tipo y Rango")
 
 #Obtener lista de tipos para el selectbox
 url_tipos = "https://pokeapi.co/api/v2/type"
@@ -121,12 +121,11 @@ if tipo_seleccionado:
             st.warning("Hay muchos Pokémon en este rango!! Se analizarán los primeros 20!!")
             df_filtrado = df_filtrado.head(20)
 
-        #Boton para comenzar el analisis
-       # Botón para iniciar el análisis
+        #Boton para comenzar el analisi
         if st.button("Generar Gráfico Comparativo"):
             lista_stats_comparacion = []
             
-            # Barra de progreso
+            #Barra de progreso
             barra_progreso = st.progress(0)
             total = len(df_filtrado)
             
@@ -134,7 +133,7 @@ if tipo_seleccionado:
                 poke_info = row[1]
                 datos = obtener_datos_pokemon(poke_info['name'])
                 if datos:
-                    # 1. Extraemos las estadísticas
+                    #Extraer las estadísticas
                     hp = datos['stats'][0]['base_stat']
                     ataque = datos['stats'][1]['base_stat']
                     defensa = datos['stats'][2]['base_stat']
@@ -142,37 +141,37 @@ if tipo_seleccionado:
                     esp_atk = datos['stats'][3]['base_stat']
                     esp_def = datos['stats'][4]['base_stat']
                     
-                    # 2. CALCULAMOS LOS DATOS NUEVOS (Crucial para que no de error)
+                    #Calculamos poder total, altura y peso (Crucial para que no de error)
                     poder_total = hp + ataque + defensa + velocidad + esp_atk + esp_def
                     altura_m = datos['height'] / 10
                     peso_kg = datos['weight'] / 10
                     
-                    # 3. Guardamos TODO en la lista
+                    #Guardamos todo en la lista
                     lista_stats_comparacion.append({
                         'Nombre': datos['name'],
                         'HP': hp,
                         'Ataque': ataque,
                         'Defensa': defensa,
                         'Velocidad': velocidad,
-                        'Poder Total': poder_total, # Necesario para gráfico de línea y color del scatter
-                        'Altura': altura_m,         # Necesario para Scatter
-                        'Peso': peso_kg             # Necesario para Scatter
+                        'Poder Total': poder_total, #Importante para grafico de linea y color del scatter
+                        'Altura': altura_m,         #Importante para Scatter
+                        'Peso': peso_kg             #Importante para Scatter
                     })
                 barra_progreso.progress((i + 1) / total)
             
-            # Crear DataFrame final
+            #DataFrame final
             df_comparativo = pd.DataFrame(lista_stats_comparacion)
             
             
             if not df_comparativo.empty:
-                #GRÁFICO DE BARRAS AGRUPADAS (ALTAIR)
+                #GRAFICO DE BARRAS AGRUPADAS (ALTAIR)
                 import altair as alt 
                 
-                #Título del gráfico
+                #Titulo del grafico
                 st.subheader(f"Comparativa de Stats: Tipo {tipo_seleccionado}")
                 st.write("Comparación detallada de Ataque, Defensa y Velocidad.")
 
-                #Preparación de datos (Si 'Nombre' es columna, lo dejamos así)
+                #Preparacion de los datos
                 if 'Nombre' in df_comparativo.columns:
                     df_reset = df_comparativo
                 else:
@@ -186,7 +185,7 @@ if tipo_seleccionado:
                     value_name='Valor'
                 )
 
-                #Crear el gráfico
+                #Crear el grafico
                 chart = alt.Chart(df_long).mark_bar().encode(
                     x=alt.X('Estadística:N', axis=None), 
                     y=alt.Y('Valor:Q', title='Puntos'),
@@ -197,30 +196,30 @@ if tipo_seleccionado:
 
                 st.altair_chart(chart, use_container_width=False)
                 
-                #Interpretación (Actualizada para coincidir con el gráfico)
+                #Interpretacion (Actualizada para coincidir con el gráfico)
                 st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
-                        f"Este grafico permite comparar directamente qué Pokemon es superior en cada atributo específico.")
+                        f"Este grafico permite comparar directamente que Pokemon es superior en cada atributo.")
                 #GRAFICO DE DISPERSION
                 st.markdown("---")
-                st.subheader("2. Relación Altura vs Peso (Interactivo)")
-                st.caption("Cada punto es un Pokémon. Pasa el mouse para ver detalles.")
+                st.subheader("Relación Altura vs Peso ¿Si son mas altos, son necesariamente mas pesados?")
+                st.caption("Cada punto es un Pokemon. Pasa el cursor por encima para mas detalles.")
 
-                # Creamos el gráfico de puntos (mark_circle)
+                # Creamos el grafico de puntos (mark_circle)
                 scatter = alt.Chart(df_comparativo).mark_circle(size=100).encode(
-                    # Eje X: Peso
+                    #Eje X: Peso
                     x=alt.X('Peso', title='Peso (kg)'),
                     
-                    # Eje Y: Altura
+                    #Eje Y: Altura
                     y=alt.Y('Altura', title='Altura (m)'),
                     
-                    # Color: Más oscuro si el Pokémon es más poderoso
+                    #El color es mas oscuro si el pokemon es mas poderoso
                     color=alt.Color('Poder Total', scale=alt.Scale(scheme='viridis'), title='Poder Total'),
                     
-                    # Tooltip: Lo que sale al pasar el mouse (¡Esto es clave!)
+                    #Tooltip: Lo que sale al pasar el mouse
                     tooltip=['Nombre', 'Peso', 'Altura', 'Poder Total']
                 ).properties(
                     title="Distribución Física y de Poder"
-                ).interactive() # Esto permite hacer zoom con la rueda del mouse
+                ).interactive() #Esto permite hacer zoom con la rueda del mouse
 
                 st.altair_chart(scatter, use_container_width=True)
 
@@ -230,8 +229,8 @@ if tipo_seleccionado:
                 st.line_chart(df_comparativo.set_index('Nombre')['Poder Total'])
 
                 # Interpretación Final
-                st.success(f"**Análisis Completo:** Se han procesado {len(df_comparativo)} Pokémon. "
-                           f"El gráfico de dispersión revela la diversidad física del tipo {tipo_seleccionado}, "
-                           f"mientras que el gráfico de barras permite identificar especialistas en Ataque o Defensa.")
+                st.success(f"**Analisis Completo:** Se han procesado {len(df_comparativo)} Pokemon. "
+                           f"El grafico de dispersion revela la diversidad fisica que tienen los tipo {tipo_seleccionado}, "
+                           f"mientras que el grafico de barras permite identificar a los mejores en Ataque o Defensa.")
             else:
-                st.warning("No se encontraron datos válidos para graficar.")
+                st.warning("No se encontraron datos validos para graficar.")
