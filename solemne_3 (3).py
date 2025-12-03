@@ -138,16 +138,15 @@ if tipo_seleccionado:
                     defensa = datos['stats'][2]['base_stat']
                     velocidad = datos['stats'][5]['base_stat']
                     
-                    lista_stats_comparacion.append({
-                        'Nombre': datos['name'],
+                    lista_stats_comparacion.append
+                    ({  'Nombre': datos['name'],
                         'HP': hp,
                         'Ataque': ataque,
                         'Defensa': defensa,
                         'Velocidad': velocidad
                         #ESTAS DOS LINEAS SON OBLIGATORIAS PARA QUE FUNCIONE EL GRAFICO DE DISPERSION
                         'Altura': pokemon_data['height']/10,
-                        'Peso': pokemon_data['weight']/10
-                    })
+                        'Peso': pokemon_data['weight']/10    })
                 barra_progreso.progress((i + 1) / total)
             
             #Creacion dataframe final
