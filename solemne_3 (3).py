@@ -186,10 +186,10 @@ if tipo_seleccionado:
                 st.info(f"**Análisis:** Se observa la distribución detallada de stats para el tipo {tipo_seleccionado}. "
                         f"Este gráfico permite comparar directamente qué Pokémon es superior en cada atributo específico.")
 
-                # --- GRÁFICO 2: DISPERSIÓN (SCATTER) ---
-                st.markdown("---") # Línea separadora
-                st.subheader("2. Relación Altura vs Peso")
-                st.caption("Gráfico de dispersión para analizar la contextura física.")
+                    # --- GRÁFICO 2: DISPERSIÓN (SCATTER) ---
+                    st.markdown("---") # Línea separadora
+                    st.subheader("2. Relación Altura vs Peso")
+                    st.caption("Gráfico de dispersión para analizar la contextura física.")
                 
-                # Este gráfico usa las columnas 'Peso' y 'Altura'
-                st.scatter_chart(df_comparativo, x='Peso', y='Altura')
+                    # Este gráfico usa las columnas 'Peso' y 'Altura'
+                    st.scatter_chart(df_comparativo, x='Peso', y='Altura')
