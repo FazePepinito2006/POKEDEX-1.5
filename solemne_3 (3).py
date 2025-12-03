@@ -6,7 +6,7 @@ import requests
 
 #CONFIGURACION DE LA PAGINA
 #Titulo de la app
-st.title("Pokedex Stats")
+st.title("Pokedex Stats Generator")
 
 def obtener_datos_pokemon(nombre):
     #Convertimos el nombre a minusculas porque la API lo exige así
