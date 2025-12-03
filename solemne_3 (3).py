@@ -185,3 +185,26 @@ if tipo_seleccionado:
                 #Interpretación (Actualizada para coincidir con el gráfico)
                 st.info(f"**Analisis:** Se observa la distribucion detallada de stats para el tipo {tipo_seleccionado}. "
                         f"Este grafico permite comparar directamente qué Pokemon es superior en cada atributo específico.")
+                # --- GRÁFICO 2: DISPERSIÓN CON ALTAIR (MUCHO MEJOR) ---
+                st.markdown("---")
+                st.subheader("2. Relación Altura vs Peso (Interactivo)")
+                st.caption("Cada punto es un Pokémon. Pasa el mouse para ver detalles.")
+
+                # Creamos el gráfico de puntos (mark_circle)
+                scatter = alt.Chart(df_comparativo).mark_circle(size=100).encode(
+                    # Eje X: Peso
+                    x=alt.X('Peso', title='Peso (kg)'),
+                    
+                    # Eje Y: Altura
+                    y=alt.Y('Altura', title='Altura (m)'),
+                    
+                    # Color: Más oscuro si el Pokémon es más poderoso
+                    color=alt.Color('Poder Total', scale=alt.Scale(scheme='viridis'), title='Poder Total'),
+                    
+                    # Tooltip: Lo que sale al pasar el mouse (¡Esto es clave!)
+                    tooltip=['Nombre', 'Peso', 'Altura', 'Poder Total']
+                ).properties(
+                    title="Distribución Física y de Poder"
+                ).interactive() # Esto permite hacer zoom con la rueda del mouse
+
+                st.altair_chart(scatter, use_container_width=True)
