@@ -44,9 +44,9 @@ if pokemon_name:
         with col1:
             st.metric(label="ID", value=pokemon_data['id'])
         with col2:
-            st.metric(label="Altura (m)", value=pokemon_data['height/10'])
+            st.metric(label="Altura (m)", value=pokemon_data['height']/10)
 
-        st.metric(label="Peso (kg)", value=pokemon_data['weight/10'])
+        st.metric(label="Peso (kg)", value=pokemon_data['weight']/10)
 
         st.write("### habilidades:") #Titulos
         abilities_list = [ability['ability']['name'] for ability in pokemon_data['abilities']]
