@@ -150,14 +150,38 @@ if tipo_seleccionado:
             df_comparativo = pd.DataFrame(lista_stats_comparacion)
             
             if not df_comparativo.empty:
-                df_comparativo = df_comparativo.set_index('Nombre')
+                # --- GRÁFICO DE BARRAS AGRUPADAS (ALTAIR) ---
+                import altair as alt 
                 
-                #Grafico de area
+                # Título del gráfico
                 st.subheader(f"Comparativa de Stats: Tipo {tipo_seleccionado}")
-                st.area_chart(df_comparativo[['Ataque', 'Defensa', 'Velocidad']])
+                st.write("Comparación detallada de Ataque, Defensa y Velocidad.")
+
+                # 1. Preparación de datos (Si 'Nombre' es columna, lo dejamos así)
+                if 'Nombre' in df_comparativo.columns:
+                    df_reset = df_comparativo
+                else:
+                    df_reset = df_comparativo.reset_index()
+
+                # 2. Transformar a formato largo para Altair
+                df_long = df_reset.melt(
+                    id_vars='Nombre', 
+                    value_vars=['Ataque', 'Defensa', 'Velocidad'], 
+                    var_name='Estadística', 
+                    value_name='Valor'
+                )
+
+                # 3. Crear el gráfico
+                chart = alt.Chart(df_long).mark_bar().encode(
+                    x=alt.X('Estadística:N', axis=None), 
+                    y=alt.Y('Valor:Q', title='Puntos'),
+                    color='Estadística:N',
+                    column=alt.Column('Nombre:N', header=alt.Header(titleOrient="bottom", labelOrient="bottom")),
+                    tooltip=['Nombre', 'Estadística', 'Valor']
+                ).properties(title="Stats por Pokémon")
+
+                st.altair_chart(chart, use_container_width=False)
                 
-                #Interpretacion de los resultados
-                st.info(f"**Analisis:** Se observa la distribución de stats para el tipo {tipo_seleccionado}. "
-                        f"Los picos indican pokemones que destacan en sus atributos dentro del rango seleccionado.")
-            else:
-                st.warning("No se encontraron datos válidos para graficar.")
+                # Interpretación (Actualizada para coincidir con el gráfico)
+                st.info(f"**Análisis:** Se observa la distribución detallada de stats para el tipo {tipo_seleccionado}. "
+                        f"Este gráfico permite comparar directamente qué Pokémon es superior en cada atributo específico.")
