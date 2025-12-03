@@ -163,54 +163,6 @@ if tipo_seleccionado:
             # Crear DataFrame final
             df_comparativo = pd.DataFrame(lista_stats_comparacion)
             
-            if not df_comparativo.empty:
-                import altair as alt 
-
-                # --- GRÁFICO 1: BARRAS AGRUPADAS (ALTAIR) ---
-                st.subheader(f"1. Comparativa de Stats: Tipo {tipo_seleccionado}")
-                
-                # Preparamos datos
-                df_reset = df_comparativo.reset_index(drop=True) 
-                df_long = df_reset.melt(id_vars='Nombre', 
-                                      value_vars=['Ataque', 'Defensa', 'Velocidad'], 
-                                      var_name='Stat', 
-                                      value_name='Puntos')
-
-                chart_bar = alt.Chart(df_long).mark_bar().encode(
-                    x=alt.X('Stat', axis=None),
-                    y='Puntos',
-                    color='Stat',
-                    column=alt.Column('Nombre', header=alt.Header(titleOrient="bottom", labelOrient="bottom")),
-                    tooltip=['Nombre', 'Stat', 'Puntos']
-                ).interactive()
-                st.altair_chart(chart_bar)
-                
-                # --- GRÁFICO 2: DISPERSIÓN (SCATTER INTERACTIVO) ---
-                st.markdown("---")
-                st.subheader("2. Relación Altura vs Peso")
-                st.caption("Pasa el mouse para ver qué Pokémon es cada punto.")
-                
-                scatter = alt.Chart(df_comparativo).mark_circle(size=100).encode(
-                    x=alt.X('Peso', title='Peso (kg)'),
-                    y=alt.Y('Altura', title='Altura (m)'),
-                    color=alt.Color('Poder Total', scale=alt.Scale(scheme='viridis')),
-                    tooltip=['Nombre', 'Peso', 'Altura', 'Poder Total']
-                ).interactive()
-                st.altair_chart(scatter, use_container_width=True)
-                
-                # --- GRÁFICO 3: LÍNEA (PODER TOTAL) ---
-                st.markdown("---")
-                st.subheader("3. Ranking de Poder Total")
-                st.line_chart(df_comparativo.set_index('Nombre')['Poder Total'])
-
-                # Interpretación Final
-                st.success(f"**Análisis Completo:** Se han procesado {len(df_comparativo)} Pokémon. "
-                           f"El gráfico de dispersión revela la diversidad física del tipo {tipo_seleccionado}, "
-                           f"mientras que el gráfico de barras permite identificar especialistas en Ataque o Defensa.")
-            else:
-                st.warning("No se encontraron datos válidos para graficar.")
-            #Creacion dataframe final
-            df_comparativo = pd.DataFrame(lista_stats_comparacion)
             
             if not df_comparativo.empty:
                 #GRÁFICO DE BARRAS AGRUPADAS (ALTAIR)
