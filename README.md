@@ -27,7 +27,7 @@ El proyecto utiliza las siguientes librerias externas:
 
 ## Instrucciones de instalacion
 **Antes de intentar correr cualquier codigo hay que instalar las librerias externas**
-*Debe abrir la consola (CMD), copiar y pegar los siguientes comandos:
+* Debe abrir la consola (CMD), copiar y pegar los siguientes comandos:
 * py -m pip install streamlit
 * py -m pip install pandas
 * py -m pip install requests
