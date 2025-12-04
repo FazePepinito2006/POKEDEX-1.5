@@ -1,37 +1,34 @@
-# Pokedex Stats Generator - Solemne 3
+# Pokedex Stats Generator SOLEMNE 3
 
-## Descripción del Proyecto
-Esta aplicación es una herramienta web interactiva desarrollada en Python utilizando **Streamlit**. Permite a los usuarios consultar estadísticas detalladas de Pokémones individuales y realizar análisis comparativos avanzados entre grupos de Pokémones filtrados por tipo y generación (rango de ID).
+## Descripcion del proyecto
+Esta aplicacion es una herramienta web interactiva desarrollada en Python utilizando Streamlit, la cual permite a los usuarios consultar estadisticas detalladas de Pokemones individuales y realizar ciertos analisis comparativos avanzados entre grupos de Pokemones filtrados por tipo y generacion (rango de ID).
 
-La aplicación consume datos en tiempo real de la **PokeAPI** (API REST pública).
+La aplicacion consume datos en tiempo real de la **PokeAPI** (API REST publica).
 
-## Características Principales
-1.  **Buscador Individual:** Consulta de datos biográficos, físicos y estadísticos de cualquier Pokémon.
-2.  **Visualización de Datos:**
-    * Gráfico de barras para estadísticas base.
-    * Gráfico de barras agrupadas (Altair) para comparación precisa de stats.
-    * Gráfico de dispersión interactivo (Scatter Plot) para análisis de Peso vs Altura.
-    * Gráfico de líneas para ranking de Poder Total.
-3.  **Filtros Avanzados:** Selección por Tipo y Rango de IDs (Generación).
-4.  **Uso Responsable:** Sistema de limitación de solicitudes (máximo 20 elementos) para no saturar la API pública.
+## Caracteristicas principales
+1.  **Buscador individual:** Consulta de datos biogrficos, fisicos y estadisticos de cualquier Pokemon.
+2.  **Visualizacion de datos:**
+    * Grafico de barras para estadisticas base.
+    * Grafico de barras agrupadas (Altair) para comparacion precisa de stats.
+    * Grafico de dispersion interactivo (Scatter Plot) para analisis de Peso vs Altura.
+    * Grafico de lineas para ranking de Poder Total.
+3.  **Filtros avanzados:** Seleccion por tipo y rango de IDs ( O generacion).
+4.  **Uso responsable:** Sistema de limitacion de solicitudes (maximo 20 elementos) para no saturar la API y por temas de tiempos de carga.
 
-## Requisitos del Sistema
-* Python 3.8 o superior.
-* Conexión a Internet (para consumir la API).
+## Requisitos de sistema
+* Conexion a internet (para consumir la API).
 
-## Librerías Utilizadas
-El proyecto utiliza las siguientes librerías externas:
-* `streamlit`: Para la interfaz web.
-* `pandas`: Para la manipulación y estructuración de datos.
-* `requests`: Para la conexión HTTP con la PokeAPI.
-* `altair`: Para la generación de gráficos interactivos avanzados.
+## Librerias utilizadas
+El proyecto utiliza las siguientes librerias externas:
+* **Streamlit:** Para la interfaz web.
+* **Pandas:** Para la manipulacion y estructuracion de datos.
+* **Requests:** Para la conexion HTTP con la PokeAPI.
+* **Altair:** Para la generacion de graficos interactivos avanzados.
 
-## Instrucciones de Instalación
-
-1. **Descargar el proyecto:**
-   Asegúrese de tener todos los archivos en una misma carpeta (`nombre_de_tu_archivo.py`, `requirements.txt`, `README.md`).
-
-2. **Instalar dependencias:**
-   Abra una terminal (consola de comandos) en la carpeta del proyecto y ejecute:
-   ```bash
-   pip install -r requirements.txt
+## Instrucciones de instalacion
+**Antes de intentar correr cualquier codigo hay que instalar las librerias externas**
+* Debe abrir la consola (CMD), copiar y pegar los siguientes comandos:
+py -m pip install streamlit
+py -m pip install pandas
+py -m pip install requests
+py -m pip install altair
